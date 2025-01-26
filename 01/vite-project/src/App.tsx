@@ -4,12 +4,26 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import api from './servicos/api'
 function App() {
-  const [produtos, setprodutos] = useState([]);
+  const [produtos, setProdutos] = useStateIProdutos[]>([]);
+
+  interface IProdutos
+  {
+ id: number;
+ nome: string;
+ preco: number;
+ endereco: {
+     rua: string;
+     numero: number;
+     bairro: string;
+          }
+ }
+
   useEffect(() => {
     
 async function getProdutos() {
-  const response = await api.get('/produtos') 
-    console.log(response);
+  const response = await api.get<IProdutos[]>('/produtos') 
+  setProdutos(response.data) 
+  
   } 
   get.Produtos();
   }, []); 
@@ -22,8 +36,17 @@ async function getProdutos() {
         <a href="https://react.dev" target="_blank">
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
-      </div>
-      <h1>Vite + React</h1>
+      </div key={produtos.id}>
+        <h1>{produtos.nome} - {produtos.preco}</h1>
+        <p>
+          {produtos.endereco.rua}, {produtos.endereco.numero} - {produtos.endereco.bairro}
+        </p>
+      <h1>{produtos.map} {produtos=> (
+        <p>
+          {produtos.nome} - {produtos.preco}  
+
+        </p>
+        </h1>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
